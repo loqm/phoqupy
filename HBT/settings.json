@@ -1,0 +1,67 @@
+{
+  "setSyncDiv": {"syncDiv": 1},
+  "setSyncTrigMode": {"syncTrigMode": "TrigMode.Edge"},
+  "setSyncEdgeTrig": {
+    "syncTrigLvl": -50,
+    "syncTrigEdge": 1
+  },
+  "setSyncCFD": {
+    "syncDiscrLvl": -50,
+    "syncZeroXLvl": 20
+  },
+  "setSyncChannelOffset": {"syncChannelOffset": 0},
+  "setSyncChannelEnable": {"syncChannelEnable": 1},
+  "setSyncDeadTime": {"syncDeadTime": 800},
+  "setInputHysteresis": {"hystCode": 0},
+  "setTimingMode:": {"timingMode": 0},
+  "setStopOverflow": {"stopCount": 4294967295},
+  "setBinning": {"binning": 0},
+  "setOffset": {"offset": 0},
+  "setHistoLength": {"LengthCode": 6},
+  "setMeasControl": {
+    "measControl": "MeasControl.SingleShotCTC",
+    "startEdge": 0,
+    "stopEdge": 0
+  },
+  "setTriggerOutput": {"trigOutput": 0},
+  "setMarkerEdges": {
+    "edge1": 0,
+    "edge2": 0,
+    "edge3": 0,
+    "edge4": 0
+  },
+  "setMarkerEnable": {
+    "ena1": 0,
+    "ena2": 0,
+    "ena3": 0,
+    "ena4": 0
+  },
+  "setMarkerHoldoffTime": {"holdoffTime": 0},
+  "setOflCompression": {"holdtime": 2},
+  "setInputTrigMode": {
+    "channel": -1,
+    "trigMode": "TrigMode.Edge"
+  },
+  "setInputEdgeTrig": {
+    "channel": -1,
+    "trigLvl": -50,
+    "trigEdge": 1
+  },
+  "setInputCFD": {
+    "channel": -1,
+    "discrLvl": -50,
+    "zeroXLvl": 20
+  },
+  "setInputChannelOffset": {
+    "channel": -1,
+    "channelOffset": 0
+  },
+  "setInputChannelEnable": {
+    "channel": -1,
+    "channelEnable": 1
+  },
+  "setInputDeadTime": {
+    "channel": -1,
+    "deadTime": 800
+  }
+}

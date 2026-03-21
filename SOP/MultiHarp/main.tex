@@ -1,0 +1,29 @@
+This is only a quick-start guide to the MultiHarp software, for data acquisition. 
+Note: I am making this after not having used the application very much myself, so it is very likely you may have unprecedented issues, in which case, please refer to the manual. If you do not have it, reach out to me (I will send it to you). 
+
+Step-By-Step Quick Start Guide:
+1. Ensure the MultiHarp is connected to the PC. Check if the device is visible in the Device Manager. 
+2. Open the application. The main window has a histogram display, a toolbar at the top and some "meters" at the bottom. 
+3. Press Alt+A/double-click the axes in the display to set the axis limits. The base resolution of the MultiHarp at LOQM is 80ps, and most samples have lifetimes in the range of a few ns. Default to 0-50ns, 1-100000counts on a log scale (so that small signals are visible).
+4. Use the input "meter" to select the channel. Ensure you're monitoring the correct channel, and press the Go/Stop buttons in the toolbar to start and stop the measurement. You should see the data accumulating in the main window. 
+5. If you do not see any sync reading:
+    a. check all your connections
+    b. check the sync trigger level
+    c. check your sync divider
+6. If you do not see any input counts on the correct channel:
+    a. check the trigger levels (Control Panel)
+    b. ensure you are not in oscilloscope mode (Control Panel - Acquisition)
+7. There are two histogram measurement modes: oscilloscope & integration.
+    a. Oscilloscope mode will collect data for the set time period and display it periodically, refreshing the plot.
+    b. Integration mode will accumulate the counts and display it to you on-the-fly.
+8. To take timetagged measurements, open the control panel using the toolbar/Alt+C, and go to the acquisition tab. These measurements will save .ptu files, which can be analysed using snAPI to measure lifetimes and correlation, among other things.
+9. Ensure the MultiHarp is connected to the PC using a USB 3.x port for TTTR (Time-Tagged Time-Resolved) measurements as the device requires a high-throughput port, and disk memory as a LOT of data is collected in these measurements. 
+10. Click the TTTR Mode button in the toolbar. There are two measurement modes. The manual elaborates quite nicely on the data throughput required for these modes. Reloading these measurements in MultiHarp will only result in histograms. Other analysis requires the use of snAPI. 
+    a. T2: Each signal is timetagged and stored i.e, sync and signal and treated identically. This means taking a measurement in T2 mode will store ALL the sync pulses, giving you a bloated datafile. Avoid using this mode generally. On the other hand, it also means you could use the MultiHarp's sync port as a 5th signal channel. 
+    b. T3: Operates similar to the traditional histogramming mode, storing a timetag for each detection.  
+11. There is also a real-time correlator tool. The interface for this is fairly intuitive, so I leave it up to the user to play around with. 
+12. Event Filtering is a lot more detailed. Please refer to the manual. 
+
+Other Tips:
+    > If you are using the MultiHarp software for measurements, take them in T3 mode unless you know what you are doing. T2 measurements with the sync signal connected will ALMOST CERTAINLY overrun your buffers and compromise your experiment. 
+    > Allow the instrument to "warm up" for about 20 minutes before taking any serious measurements. 

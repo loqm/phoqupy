@@ -1,0 +1,12 @@
+resolution: 20
+start: 0
+end: 75
+filename: "F:\\AMRITA\\Andor spectrometer\\tests\\test_raster"
+temp_setpoint: -80
+exposure: 0.5
+grating: 1
+filter_slot: 5
+center_wavelength: 600E-9
+acquisition_mode: "single" # or use "accum" for accumulation mode
+accumulation_time: 1
+number_of_accumulations: 10

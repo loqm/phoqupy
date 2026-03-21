@@ -1,0 +1,32 @@
+{
+    "unfold": {
+        "settings": {},
+        "getDataFunc": "getData"
+    },
+    "histogram": {
+        "settings": {
+            "setRefChannel": {"channel": 0},
+            "setBinWidth": {"binWidth": 80}
+        },
+        "getDataFunc": "getData"
+    },
+    "timeTrace": {
+        "settings": {
+            "setNumBins": {"numBins": 10000},
+            "setHistorySize": {"historySize": 1}
+        },
+        "getDataFunc": "getData"
+    },
+    "correlation": {
+        "settings": {
+            "setG2Parameters": {
+                "startChannel": 1,
+                "stopChannel": 2,
+                "windowSize": 8e5,
+                "binWidth": 80,
+                "normalization": false
+            }
+        },
+        "getDataFunc": "getG2Data"
+    }
+}

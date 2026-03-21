@@ -1,0 +1,15 @@
+A letter to the members of LOQM. 
+
+Hi, Archit here. 
+
+Firstly, at the risk of sounding like a broken record, my apologies for the delay with which this was delivered to you. Punctuality is not my strong suit. 
+
+Secondly, to the members of the lab, who I hope will be able to make use of this work. I was initially trying to make a GUI (with buttons and dialogs) for tcspc data acquisition and analysis as I thought it would be most convenient for you. 
+HOWEVER, I realised it might be better to provide a CLI type of package so that 
+    (a) It would be more friendly for you to look under the hood and try to fix it, if something were to not work (Trust me, snAPI fails quite annoyingly at times).
+    (b) It is my personal opinion that experimental physics is a spectacular field because of the all-rounder skillset it equips you with, from an understanding of mathematical theory to the ability to make (more or less) anything you want to, for your experiment or otherwise. 
+    Working with drivers, hardware and a CLI-like environment is a natural first step in that direction (if you haven't worked with these before, of course).
+
+Finally, to Srivatsa, Amrita and Anshuman sir, thank you for being such lovely people. 
+
+My best. 

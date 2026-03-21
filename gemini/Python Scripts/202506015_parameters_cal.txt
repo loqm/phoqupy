@@ -1,0 +1,1 @@
+replace with parameters_cal calibration file of your GEMINI device.
