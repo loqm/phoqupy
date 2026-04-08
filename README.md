@@ -247,14 +247,14 @@ Includes:
 
 If you use PhoQuPy in your research, please cite:
 
-> A. Kumar, S. Murali, *PhoQuPy: A Python Framework for Automating Quantum Optics Experiments*, 2026.
+> S. Murali and A. Kumar, *PhoQuPy: A Python Framework for Automating Quantum Optics Experiments*, 2026.
 
 ### BibTeX
 
 ```bibtex
 @article{phoqupy2026,
   title   = {PhoQuPy: A Python Framework for Automating Quantum Optics Experiments},
-  author  = {Kumar, Anshuman and Murali, Srivatsa},
+  author  = {Murali, Srivatsa and Kumar, Anshuman},
   year    = {2026},
   journal = {arXiv preprint},
   eprint  = {2602.04505},
@@ -279,8 +279,8 @@ You should contribute.
 
 ## 👤 Authors
 
-**Anshuman Kumar**
 **Srivatsa Murali**
+**Anshuman Kumar**
 Laboratory of Optics of Quantum Materials (LOQM)
 IIT Bombay
 
