@@ -243,7 +243,7 @@ Includes:
 
 If you use PhoQuPy in your research, please cite:
 
->  A. Kumar, S. Murali, *PhoQuPy: A Python Framework for Automating Quantum Optics Experiments*, arXiv:2602.04505 (2026)
+>  S. Murali, A. Kumar, *PhoQuPy: A Python Framework for Automating Quantum Optics Experiments*, arXiv:2602.04505 (2026)
 
 ### BibTeX
 
