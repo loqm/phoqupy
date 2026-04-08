@@ -3,6 +3,7 @@
 ### *Automation-first framework for quantum optics experiments*
 
 > 🔬 Used in active quantum optics experiments at IIT Bombay
+> 
 > Control your experiment. Not just your equations.
 
 ---
