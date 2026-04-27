@@ -173,6 +173,7 @@ Note: Parts of this repo cannot be used directly in another facility, as various
 ### 🔵 Cryogenic PL Mapping (Galvo)
 
 ![Galvo Scan](docs/galvo_scan.png)
+![Galco Architecture](docs/galvo_architecture.png)
 
 * High-speed scanning
 * Cryostat-compatible workflows
