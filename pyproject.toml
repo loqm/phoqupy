@@ -1,0 +1,43 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "phoqupy"
+version = "0.1.0"
+description = "Automation-first framework for quantum optics experiments"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [
+  { name = "Srivatsa Murali" },
+  { name = "Anshuman Kumar" },
+]
+keywords = ["quantum optics", "photoluminescence", "single-photon", "automation", "spectroscopy", "confocal", "HBT"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Intended Audience :: Science/Research",
+  "Topic :: Scientific/Engineering :: Physics",
+  "Operating System :: OS Independent",
+]
+dependencies = ["numpy>=1.20", "matplotlib>=3.4"]
+
+[project.optional-dependencies]
+stage       = ["mdt69x"]
+spectrometer = ["pylablib"]
+picoquant   = ["snAPI"]
+zaber       = ["zaber-motion"]
+hardware    = ["mdt69x", "pylablib", "snAPI", "zaber-motion"]
+dev         = ["build", "twine", "pytest"]
+
+[project.scripts]
+phoqupy = "phoqupy.cli:main"
+
+[project.urls]
+Homepage   = "https://loqm.tech"
+Repository = "https://github.com/loqm/phoqupy"
+Paper      = "https://arxiv.org/abs/2602.04505"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/phoqupy"]
