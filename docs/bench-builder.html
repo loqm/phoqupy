@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PhoQuPy Bench Builder</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+:root{
+  --bg:#080b18; --card:#111834; --card2:#0e142c;
+  --line:rgba(255,255,255,.10); --line2:rgba(255,255,255,.17);
+  --text:#edeff7; --muted:#9ba3c4; --faint:#6b7398;
+  --violet:#7b61ff; --magenta:#ff4d8d; --amber:#fdb528; --green:#2fd08b;
+  --grad:linear-gradient(90deg,#7b61ff 0%,#ff4d8d 52%,#fdb528 100%);
+  --sans:'Space Grotesk',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--sans);color:var(--text);line-height:1.5;
+  background:radial-gradient(1100px 600px at 85% -10%,rgba(123,97,255,.16),transparent 60%),
+    radial-gradient(900px 520px at 5% 110%,rgba(255,77,141,.12),transparent 60%),var(--bg);
+  min-height:100vh;-webkit-font-smoothing:antialiased;}
+.wrap{max-width:1280px;margin:0 auto;padding:22px 22px 60px;}
+header.top{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:6px 0 22px;}
+.brand{font-size:1.5rem;font-weight:700;letter-spacing:-.02em;}
+.brand .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.tagline{font-family:var(--mono);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);}
+.top .spacer{margin-left:auto;}
+.pill{font-family:var(--mono);font-size:.72rem;color:var(--muted);border:1px solid var(--line2);border-radius:999px;padding:7px 13px;}
+.grid{display:grid;grid-template-columns:300px 1fr;gap:18px;align-items:start;}
+@media(max-width:960px){.grid{grid-template-columns:1fr;}}
+.panel{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:16px;padding:18px;}
+.panel h2{font-size:.72rem;font-family:var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-bottom:14px;display:flex;align-items:center;gap:9px;}
+.panel h2::before{content:"";width:18px;height:1px;background:var(--line2);}
+.pal-group{font-family:var(--mono);font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin:16px 0 9px;}
+.pal-group:first-of-type{margin-top:0;}
+.chip{width:100%;text-align:left;background:#070a17;border:1px solid var(--line);border-radius:11px;padding:11px 12px;margin-bottom:9px;cursor:pointer;color:var(--text);font-family:var(--sans);display:flex;align-items:center;gap:11px;transition:border-color .15s,transform .15s,background .15s;}
+.chip:hover{border-color:var(--line2);transform:translateY(-1px);background:#0a0f1f;}
+.chip:focus-visible{outline:2px solid var(--magenta);outline-offset:2px;}
+.ibox{width:34px;height:34px;border-radius:9px;flex:none;display:grid;place-items:center;border:1px solid var(--line2);background:rgba(255,255,255,.03);}
+.ibox svg{width:20px;height:20px;}
+.chip .nm{font-size:.9rem;font-weight:600;line-height:1.15;}
+.chip .sub{font-size:.71rem;color:var(--muted);}
+.chip .plus{margin-left:auto;color:var(--faint);font-size:1.1rem;line-height:1;}
+.bench-scroll{overflow-x:auto;padding-bottom:8px;}
+.bench{display:flex;align-items:stretch;min-width:min-content;padding:26px 6px 10px;position:relative;}
+.beam{position:absolute;left:14px;right:14px;top:50%;height:3px;transform:translateY(-6px);border-radius:2px;z-index:0;
+  background:linear-gradient(90deg,rgba(47,208,139,.15),rgba(47,208,139,.8),rgba(255,77,141,.7),rgba(255,77,141,.15));}
+.node{position:relative;z-index:1;min-width:136px;max-width:154px;background:linear-gradient(180deg,#141c3d,#0e1430);border:1px solid var(--line2);border-radius:13px;padding:12px;margin:0 9px;display:flex;flex-direction:column;gap:6px;}
+.node.fixed{border-style:dashed;border-color:rgba(255,255,255,.22);background:linear-gradient(180deg,#161616,#101010);}
+.node.sample{border-color:rgba(253,181,40,.4);background:linear-gradient(180deg,#1c1608,#12100a);}
+.node .tag{font-family:var(--mono);font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);}
+.node .name{font-size:.84rem;font-weight:600;line-height:1.15;}
+.node .meta{font-size:.67rem;color:var(--muted);}
+.node .nbox{width:36px;height:36px;border-radius:9px;display:grid;place-items:center;border:1px solid var(--line2);background:rgba(255,255,255,.04);margin-bottom:2px;}
+.node .nbox svg{width:22px;height:22px;}
+.node .ctrls{display:flex;gap:5px;margin-top:auto;padding-top:6px;}
+.node .ctrls button{flex:1;background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--muted);border-radius:7px;padding:5px;cursor:pointer;font-size:.8rem;line-height:1;transition:background .15s,color .15s;}
+.node .ctrls button:hover{background:rgba(255,255,255,.12);color:var(--text);}
+.node .ctrls .del:hover{background:rgba(255,77,141,.18);color:#ff9ec2;border-color:rgba(255,77,141,.4);}
+.node.fixed .lock{font-size:.66rem;color:var(--faint);margin-top:auto;padding-top:6px;font-family:var(--mono);}
+.empty{color:var(--faint);font-size:.85rem;padding:18px;border:1px dashed var(--line2);border-radius:12px;text-align:center;margin:0 9px;align-self:center;}
+.side-label{position:absolute;top:2px;font-family:var(--mono);font-size:.55rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);}
+.hints{margin-top:14px;display:flex;flex-direction:column;gap:8px;}
+.hint{font-size:.82rem;color:var(--muted);background:rgba(253,181,40,.07);border:1px solid rgba(253,181,40,.25);border-radius:9px;padding:9px 12px;display:flex;gap:9px;}
+.hint b{color:var(--amber);font-weight:600;}
+.hint.ok{background:rgba(47,208,139,.07);border-color:rgba(47,208,139,.25);}
+.hint.ok b{color:var(--green);}
+.codewrap{margin-top:18px;}
+.code{background:#05070f;border:1px solid var(--line2);border-radius:14px;overflow:hidden;}
+.code .bar{display:flex;align-items:center;gap:7px;padding:11px 14px;border-bottom:1px solid var(--line);}
+.code .bar i{width:11px;height:11px;border-radius:50%;background:#2a3357;display:inline-block;}
+.code .bar .fn{font-family:var(--mono);font-size:.72rem;color:var(--faint);margin-left:6px;}
+.code .bar .copy{margin-left:auto;background:var(--grad);color:#0a0d1a;border:0;font-family:var(--mono);font-weight:500;font-size:.74rem;padding:8px 14px;border-radius:8px;cursor:pointer;}
+.code .bar .copy:active{transform:scale(.97);}
+.code pre{margin:0;padding:18px 18px 22px;overflow-x:auto;font-family:var(--mono);font-size:.8rem;line-height:1.7;color:#c7cdec;white-space:pre;}
+.code .c{color:#5b638c;}.code .s{color:#7ee0b8;}.code .k{color:#ff7db6;}.code .n{color:#fdb528;}.code .f{color:#8fd6ff;}
+.foot{margin-top:20px;font-size:.78rem;color:var(--faint);font-family:var(--mono);text-align:center;line-height:1.6;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <div class="brand">Pho<span class="g">Qu</span>Py <span style="font-weight:500;color:var(--muted);">Bench Builder</span></div>
+      <div class="tagline">arrange the beam path · get runnable phoqupy code</div>
+    </div>
+    <div class="spacer"></div>
+    <span class="pill">LOQM · IIT Bombay</span>
+  </header>
+  <div class="grid">
+    <aside class="panel">
+      <h2>Components</h2>
+      <div class="pal-group">Excitation / scanning</div>
+      <div id="pal-exc"></div>
+      <div class="pal-group">Collection / detection</div>
+      <div id="pal-col"></div>
+      <div style="margin-top:16px;font-size:.76rem;color:var(--faint);line-height:1.5;">
+        The <b style="color:var(--muted);">objective + collection block</b> is fixed hardware the code doesn't drive — it stays in the path as a reference.
+      </div>
+    </aside>
+    <main>
+      <div class="panel">
+        <h2>Beam path</h2>
+        <div class="bench-scroll"><div class="bench" id="bench">
+          <span class="side-label" style="left:10px;">excitation →</span>
+        </div></div>
+        <div class="hints" id="hints"></div>
+      </div>
+      <div class="codewrap"><div class="code">
+        <div class="bar"><i></i><i></i><i></i><span class="fn">experiment.py</span>
+          <button class="copy" id="copyBtn">Copy script</button></div>
+        <pre id="code"></pre>
+      </div></div>
+      <div class="foot">Emits the phoqupy package API — runs anywhere in simulation (pip install phoqupy), or drives the rig when you set SIMULATE=False.</div>
+    </main>
+  </div>
+</div>
+<script>
+/* ---- schematic component icons (original SVG, currentColor) ---- */
+const S='stroke="currentColor" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"';
+const ICONS={
+  laser:`<svg viewBox="0 0 24 24" ${S}><rect x="2.5" y="8" width="9" height="8" rx="1.5"/><path d="M11.5 12H21"/><path d="M17.5 8.5 21 12l-3.5 3.5"/></svg>`,
+  stage:`<svg viewBox="0 0 24 24" ${S}><rect x="6" y="6" width="12" height="12" rx="1.5"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3"/></svg>`,
+  cryo:`<svg viewBox="0 0 24 24" ${S}><path d="M5.5 18.5 18.5 5.5"/><path d="M14.5 4.5h4v4"/><path d="M4.5 10a6 6 0 0 0 0 8"/></svg>`,
+  objective:`<svg viewBox="0 0 24 24" ${S}><path d="M9 3h6l-1.2 4.5h-3.6z"/><path d="M10.2 7.5 9.4 12a2.6 2.6 0 0 0 5.2 0l-.8-4.5"/><path d="M12 17v4"/></svg>`,
+  spec:`<svg viewBox="0 0 24 24" ${S}><path d="M3 17 10.5 5 11 17z"/><path d="M11 9h9M11 12h9M11 15h9"/></svg>`,
+  spad:`<svg viewBox="0 0 24 24" ${S}><path d="M8 6v12l9-6z"/><path d="M17 6v12"/><path d="M2.5 6l3 2.5M2.5 11l3 1"/></svg>`,
+  camera:`<svg viewBox="0 0 24 24" ${S}><rect x="2.5" y="7" width="19" height="12" rx="2"/><circle cx="12" cy="13" r="3.2"/><path d="M8 7l1.4-2h5L15.9 7"/></svg>`,
+  gemini:`<svg viewBox="0 0 24 24" ${S}><path d="M3 16h4l5-8"/><path d="M12 8l5 8h4"/><circle cx="7" cy="16" r="1.3"/><circle cx="17" cy="16" r="1.3"/><path d="M12 3v4"/></svg>`,
+  fiber:`<svg viewBox="0 0 24 24" ${S}><path d="M2.5 12H9"/><path d="M15 12h6.5"/><rect x="9" y="8.5" width="6" height="7" rx="1"/><path d="M12 8.5v-2M12 17.5v-2"/></svg>`,
+};
+const ACCENT={laser:'#2fd08b',stage:'#7b61ff',cryo:'#9b8bff',objective:'#fdb528',spec:'#ff4d8d',spad:'#ff7db6',camera:'#fdb528',gemini:'#ffcf6b',fiber:'#7ee0b8'};
+
+const CATALOG={
+  stage:{name:"NanoMax stage",side:"exc",tag:"scan",meta:"PL Scanning · COM4",role:"scanner"},
+  cryo:{name:"Cryo piezo scan",side:"exc",tag:"scan",meta:"Piezoconcept C3 · COM5",role:"scanner"},
+  spec:{name:"Andor spectrometer",side:"col",tag:"PL",meta:"Kymera + Newton",role:"detector"},
+  spad:{name:"SPAD + MultiHarp",side:"col",tag:"HBT",meta:"g²(τ) · lifetime",role:"detector"},
+  camera:{name:"Thorlabs camera",side:"col",tag:"img",meta:"Zaber stitching",role:"detector"},
+  gemini:{name:"Gemini interferom.",side:"col",tag:"cube",meta:"Princeton EMCCD",role:"detector"},
+  fiber:{name:"Fiber alignment",side:"col",tag:"align",meta:"Y–Z power map",role:"detector"},
+};
+let exc=[], col=[];
+
+function iconBox(id,cls){const a=ACCENT[id];return `<span class="${cls}" style="color:${a}">${ICONS[id]}</span>`;}
+function paletteChip(id){const c=CATALOG[id];const b=document.createElement('button');b.className='chip';
+  b.innerHTML=`${iconBox(id,'ibox')}<span><span class="nm">${c.name}</span><br><span class="sub">${c.meta}</span></span><span class="plus">+</span>`;
+  b.onclick=()=>{(c.side==='exc'?exc:col).push(id);render();};return b;}
+function buildPalette(){const pe=document.getElementById('pal-exc'),pc=document.getElementById('pal-col');pe.innerHTML='';pc.innerHTML='';
+  Object.keys(CATALOG).forEach(id=>{(CATALOG[id].side==='exc'?pe:pc).appendChild(paletteChip(id));});}
+
+function moduleNode(id,list,idx){const c=CATALOG[id];const n=document.createElement('div');n.className='node';
+  n.innerHTML=`${iconBox(id,'nbox')}<div class="tag">${c.role}</div><div class="name">${c.name}</div><div class="meta">${c.meta}</div>
+    <div class="ctrls"><button title="left">◀</button><button title="right">▶</button><button class="del" title="remove">✕</button></div>`;
+  const b=n.querySelectorAll('button');
+  b[0].onclick=()=>{if(idx>0){[list[idx-1],list[idx]]=[list[idx],list[idx-1]];render();}};
+  b[1].onclick=()=>{if(idx<list.length-1){[list[idx+1],list[idx]]=[list[idx],list[idx+1]];render();}};
+  b[2].onclick=()=>{list.splice(idx,1);render();};return n;}
+function fixedNode(cls,tag,name,meta,icon){const n=document.createElement('div');n.className='node '+cls;
+  n.innerHTML=`${iconBox(icon,'nbox')}<div class="tag">${tag}</div><div class="name">${name}</div><div class="meta">${meta}</div><div class="lock">🔒 not code-driven</div>`;return n;}
+
+function render(){const bench=document.getElementById('bench');
+  bench.querySelectorAll('.node,.empty,.beam,#colLabel').forEach(e=>e.remove());
+  const beam=document.createElement('div');beam.className='beam';bench.appendChild(beam);
+  bench.appendChild(fixedNode('fixed','source','Excitation laser','CW / pulsed','laser'));
+  exc.forEach((id,i)=>bench.appendChild(moduleNode(id,exc,i)));
+  bench.appendChild(fixedNode('sample','sample','Objective + collection','microscope block','objective'));
+  const cl=document.createElement('span');cl.className='side-label';cl.id='colLabel';cl.textContent='→ collection';cl.style.right='10px';bench.appendChild(cl);
+  if(col.length===0){const e=document.createElement('div');e.className='empty';e.textContent='+ add a detector';bench.appendChild(e);}
+  col.forEach((id,i)=>bench.appendChild(moduleNode(id,col,i)));
+  renderHints();
+  const code=generateScript();
+  document.getElementById('code').innerHTML=highlight(code);
+  document.getElementById('code').dataset.raw=code;}
+
+function renderHints(){const h=document.getElementById('hints');h.innerHTML='';const msgs=[];
+  const scanners=exc.filter(id=>CATALOG[id].role==='scanner');const hasScanner=scanners.length>0;
+  if(exc.length===0&&col.length===0)msgs.push(['','Pick components on the left to lay out your experiment.']);
+  if(col.includes('spec')&&!hasScanner)msgs.push(['Add a scanner','A stage or cryo-piezo is needed to raster a PL map with the spectrometer.']);
+  if(scanners.length>1)msgs.push(['Two scanners','Using the first ('+CATALOG[scanners[0]].name+') for the map; NanoMax = room-temp, Piezoconcept = cryostat.']);
+  if(col.includes('spad')&&!col.includes('spec'))msgs.push(['Tip','Add a spectrometer to map & identify an emitter before the g² step.']);
+  if(col.includes('gemini')&&col.includes('spec'))msgs.push(['Note','Gemini + Andor are separate acquisition paths — they generate independent scripts.']);
+  if(col.length>0&&(!col.includes('spec')||hasScanner)&&msgs.length===0)msgs.push(['ok','Valid bench — script mirrors your real repo code.']);
+  msgs.forEach(([b,t])=>{const d=document.createElement('div');d.className='hint'+(b==='ok'?' ok':'');
+    d.innerHTML=(b&&b!=='ok'?`<b>${b}:</b>`:(b==='ok'?'<b>Ready:</b>':''))+`<span>${t}</span>`;h.appendChild(d);});}
+
+/* ---------------- phoqupy package API code generation ---------------- */
+function confocalBlock(scanner){
+  if(scanner==='cryo') return `# Cryogenic PL map (Piezoconcept C3 + Andor)
+scan = phoqupy.CryoScan(y_range=(90, 110), z_range=(90, 110), step=0.5,
+                        port="COM5", simulate=SIMULATE)
+pl_map = scan.run()
+scan.plot_map(pl_map)              # click a pixel to see its spectrum
+`;
+  return `# Confocal PL map (NanoMax stage + Andor)
+scan = phoqupy.ConfocalScan(x_range=(0, 50), y_range=(0, 50), step=0.5,
+                            port="COM4", simulate=SIMULATE)
+pl_map = scan.run()
+scan.plot_map(pl_map)              # click a pixel to see its spectrum
+`;
+}
+function hbtBlock(hasMap){
+  const loc = hasMap ? `ix, iy = pl_map.pick_brightest()   # park on the brightest emitter above
+` : ``;
+  return `# g2(tau) + lifetime  (HBT / TCSPC)
+${loc}hbt = phoqupy.HBTMeasurement(simulate=SIMULATE)
+tau, g2 = hbt.g2(time_window_ns=20)          # antibunching dip -> single-photon purity
+bins, counts, fit = hbt.lifetime(nExp=2)     # bi-exponential lifetime fit
+hbt.plot_g2()
+`;
+}
+function fiberBlock(){
+  return `# Fiber alignment (Y-Z coupling map)
+fa = phoqupy.FiberAlignment(v_max=75, resolution=50, port="COM4", simulate=SIMULATE)
+fa.run()
+print("optimum (Y, Z) volts:", fa.optimum())
+fa.plot()
+`;
+}
+function stitchBlock(){
+  return `# Stitched wide-field image (Zaber raster + MIST)
+stitch = phoqupy.StitchedScan(grid=(20, 20), overlap=0.2, port="COM5", simulate=SIMULATE)
+stitch.run().stitch(method="MIST")
+stitch.plot()
+`;
+}
+function hyperBlock(){
+  return `# Hyperspectral cube (Gemini interferometer + EMCCD)
+hs = phoqupy.HyperspectralScan(grid=(40, 40), spectral_points=80, simulate=SIMULATE).run()
+band = hs.slice(wavelength_nm=585)           # isolate the emission band
+hs.plot(585)
+`;
+}
+
+function generateScript(){
+  const hasCryo=exc.includes('cryo'), hasStage=exc.includes('stage');
+  const scanner=hasCryo?'cryo':(hasStage?'stage':null);
+  const path='laser -> '+(exc.map(i=>CATALOG[i].name).join(' -> ')||'(no scanner)')+
+             ' -> [objective] -> '+(col.map(i=>CATALOG[i].name).join(' -> ')||'(no detector)');
+  const blocks=[]; let hasMap=false;
+  col.forEach(id=>{
+    if(id==='spec'){ if(scanner){blocks.push(confocalBlock(scanner));hasMap=true;}
+                     else blocks.push('# Spectrometer selected but no scanner on the excitation side.\n# Add a NanoMax stage or Cryo piezo to raster a PL map.\n'); }
+    else if(id==='spad')blocks.push(hbtBlock(hasMap));
+    else if(id==='fiber')blocks.push(fiberBlock());
+    else if(id==='camera')blocks.push(stitchBlock());
+    else if(id==='gemini')blocks.push(hyperBlock());
+  });
+  let out='# ================================================================\n';
+  out+='#  Generated by PhoQuPy Bench Builder\n';
+  out+='#  '+path+'\n';
+  out+='#  pip install phoqupy          (add [hardware] on the lab machine)\n';
+  out+='# ================================================================\n';
+  out+='import phoqupy\n\n';
+  out+='SIMULATE = True   # runs on synthetic data anywhere; set False on the rig\n\n';
+  if(blocks.length===0){out+='# Add a detector on the collection side to generate a measurement.\n';return out;}
+  out+=blocks.join('\n');
+  return out;
+}
+
+/* ---------- python highlighter ---------- */
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function highlight(src){const KW=['from','import','as','for','in','while','with','if','else','def','return','True','False','None'];
+  return src.split('\n').map(line=>{let ci=-1,q=null;
+    for(let i=0;i<line.length;i++){const ch=line[i];if(q){if(ch===q)q=null;}else if(ch==='"'||ch==="'")q=ch;else if(ch==='#'){ci=i;break;}}
+    let code=ci>=0?line.slice(0,ci):line,com=ci>=0?line.slice(ci):'';code=esc(code);
+    code=code.replace(/("[^"]*"|'[^']*')/g,'<span class="s">$1</span>');
+    code=code.replace(/\b(\d+\.?\d*(?:e-?\d+)?)\b/g,'<span class="n">$1</span>');
+    code=code.replace(/\b([A-Z][A-Za-z0-9_]+)\b/g,'<span class="f">$1</span>');
+    KW.forEach(k=>{code=code.replace(new RegExp('\\b('+k+')\\b','g'),'<span class="k">$1</span>');});
+    return code+(com?`<span class="c">${esc(com)}</span>`:'');}).join('\n');}
+
+document.getElementById('copyBtn').onclick=function(){const raw=document.getElementById('code').dataset.raw||'';const btn=this,done=()=>{const t=btn.textContent;btn.textContent='Copied ✓';setTimeout(()=>btn.textContent=t,1400);};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(raw).then(done).catch(done);}
+  else{const ta=document.createElement('textarea');ta.value=raw;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(ta);done();}};
+
+buildPalette();
+exc=['cryo']; col=['spec','spad'];
+render();
+</script>
+</body>
+</html>
